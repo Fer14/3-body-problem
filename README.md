@@ -67,7 +67,9 @@ You can customize the simulation by editing the following parameters in the code
 - Screen dimensions and simulation settings in main.py.
 
 Feel free to experiment with different initial conditions and parameters to observe various behaviors of the three-body system.
-Contributing
+
+
+## Contributing
 
 If you would like to contribute to this project, please follow these steps:
 
@@ -78,3 +80,5 @@ If you would like to contribute to this project, please follow these steps:
 - Commit your changes with descriptive commit messages.
 - Push the changes to your fork on GitHub.
 - Create a pull request to the original repository.
+
+![logo](imgs/white_logo.png)
