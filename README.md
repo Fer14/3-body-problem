@@ -47,7 +47,7 @@ pip install -r requirements. txt
 Run the simulation:
 
 ```bash
-    python app.py
+python app.py
 ```
 
 Observe the three-body simulation and interact with it using Pygame's window. By clicking in the space you will add more bodies to the simulation
