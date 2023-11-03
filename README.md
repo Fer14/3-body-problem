@@ -44,31 +44,31 @@ pip install -r requirements. txt
 
 ## Usage
 
-    Run the simulation:
+Run the simulation:
 
-    bash
+```bash
+    python app.py
+```
 
-    python main.py
-
-    Observe the three-body simulation and interact with it using Pygame's window.
+Observe the three-body simulation and interact with it using Pygame's window. By clicking in the space you will add more bodies to the simulation
 
 ## Customization
 
 You can customize the simulation by editing the following parameters in the code:
 
-    Initial positions and velocities of the particles in main.py.
-    Gravitational constant (G) and masses of the particles in main.py.
-    Screen dimensions and simulation settings in main.py.
+- Initial positions and velocities of the particles in main.py.
+- Gravitational constant (G) and masses of the particles in main.py.
+- Screen dimensions and simulation settings in main.py.
 
 Feel free to experiment with different initial conditions and parameters to observe various behaviors of the three-body system.
 Contributing
 
 If you would like to contribute to this project, please follow these steps:
 
-    Fork the repository on GitHub.
-    Clone the forked repository to your local machine.
-    Create a new branch for your feature or bug fix.
-    Implement your changes and test them.
-    Commit your changes with descriptive commit messages.
-    Push the changes to your fork on GitHub.
-    Create a pull request to the original repository.
+- Fork the repository on GitHub.
+- Clone the forked repository to your local machine.
+- Create a new branch for your feature or bug fix.
+- Implement your changes and test them.
+- Commit your changes with descriptive commit messages.
+- Push the changes to your fork on GitHub.
+- Create a pull request to the original repository.
