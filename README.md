@@ -1,6 +1,6 @@
 # N-Body Problem Python Simulation
 
-![logo](imgs/black_logo.png)
+![logo](imgs/black_logo2.png)
 
 A simple Python-based simulation of the three-body problem using Pygame.
 
