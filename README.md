@@ -9,6 +9,9 @@ A simple Python-based simulation of the three-body problem using Pygame.
 
 This Python code provides a basic simulation of the three-body problem, which is a classical problem in physics and celestial mechanics. The simulation uses Pygame for visualization and allows you to observe the interactions between three celestial bodies under the influence of gravitational forces.
 
+
+https://github.com/Fer14/n-body-problem/blob/main/vids/3bodies.mp4
+
 https://github.com/Fer14/n-body-problem/assets/36365106/8e6e53f3-e8e9-4ec8-ad42-0ae3ac007743
 
 
