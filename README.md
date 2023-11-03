@@ -39,7 +39,7 @@ cd n-body-problem
 Install the necessary libraries:
 
 ```bash
-pip install -r requirements. txt
+pip install -r requirements.txt
 ```
 
 ## Usage
