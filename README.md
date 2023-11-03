@@ -27,13 +27,13 @@ To run this code, you need:
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/three-body-simulation.git
+git clone https://github.com/Fer14/n-body-problem
 ```
 
 Change into the project directory:
 
 ```bash
-cd three-body-simulation
+cd n-body-problem
 ``````
 
 Install the necessary libraries:
