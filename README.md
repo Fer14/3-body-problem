@@ -11,7 +11,10 @@ This Python code provides a basic simulation of the three-body problem, which is
 
 
 
-https://github.com/Fer14/n-body-problem/assets/36365106/03f5f982-5035-4308-8c87-2906031a3bff
+
+
+https://github.com/Fer14/n-body-problem/assets/36365106/8f95e780-d246-4149-ad2c-cbf2aa2733b8
+
 
 
 
