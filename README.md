@@ -57,6 +57,23 @@ By clicking in the space you will add more bodies to the simulation as shown in 
 
 [nbodies.webm](https://github.com/Fer14/n-body-problem/assets/36365106/a14fd4c5-7334-4e39-bdba-64de128d12b2)
 
+### Options
+
+- `--width`: (Default: 800) - Width of the screen.
+- `--height`: (Default: 600) - Height of the screen.
+- `--max_bodies`: (Default: 10) - Maximum number of bodies to add to the simulation.
+- `--rebound_factor`: (Default: 0.5) - Factor strength to apply when bodies bounce off the limits of the screen.
+- `--mass`: (Default: 10) - Default mass of the bodies.
+- `--g`: (Default: 9.8) - The gravitational constant.
+- `--clock`: (Default: 60) - Framerate to delay the game to the given ticks.
+
+### Example
+
+```bash
+python app.py --width 1200 --height 800 --max_bodies 20
+```
+
+
 
 ## Customization
 
