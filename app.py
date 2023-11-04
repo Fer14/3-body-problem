@@ -1,21 +1,9 @@
 import pygame
-import sys
 import math
 import numpy as np
 import typer
 import logging
 
-
-# SETUP
-pygame.init()
-width, height = 800, 600
-screen = pygame.display.set_mode((width, height))
-clock = pygame.time.Clock()
-
-# CONSTANTS
-G = 9.8
-REBOUND_FACTOR = 0.5
-MASS = 10
 
 COLORS = [
     (217, 237, 146),
@@ -29,7 +17,9 @@ COLORS = [
 
 
 class Body:
-    def __init__(self, x, y, mass, velocity, color):
+    def __init__(
+        self, x, y, mass, velocity, color, rebound_factor, screen_width, screen_height
+    ):
         self.x = x
         self.y = y
         self.mass = mass
@@ -37,6 +27,9 @@ class Body:
         self.vx, self.vy = velocity
         self.color = color
         self.trace = []
+        self.rebound_factor = rebound_factor
+        self.screen_width = screen_width
+        self.screen_height = screen_height
 
     def __eq__(self, other) -> bool:
         """
@@ -69,7 +62,7 @@ class Body:
         else:
             return False
 
-    def calculate_grav_force(self, bodies: list):
+    def calculate_grav_force(self, bodies: list, g: float):
         """
         Calculate and apply the gravitational force from multiple bodies on the current object.
 
@@ -79,6 +72,8 @@ class Body:
             The object on which the gravitational forces are applied.
         bodies : list
             A list of Body objects representing the other bodies influencing the current object.
+        g : float
+            The gravitational constant.
 
         Returns
         -------
@@ -101,7 +96,7 @@ class Body:
         force = (0, 0)
         for body in bodies:
             if body != self:
-                force += calculate_gravitational_force(self, body)
+                force += calculate_gravitational_force(self, body, g)
         force1x, force1y = add_tuples(force)
         self.update(force1x, force1y)
 
@@ -204,16 +199,16 @@ class Body:
         """
         if self.y < 0:
             self.y = 0
-            self.vy *= -REBOUND_FACTOR
-        elif self.y > height:
-            self.y = height
-            self.vy *= -REBOUND_FACTOR
+            self.vy *= -self.rebound_factor
+        elif self.y > self.screen_height:
+            self.y = self.screen_height
+            self.vy *= -self.rebound_factor
         if self.x < 0:
             self.x = 0
-            self.vx *= -REBOUND_FACTOR
-        elif self.x > width:
-            self.x = width
-            self.vx *= -REBOUND_FACTOR
+            self.vx *= -self.rebound_factor
+        elif self.x > self.screen_width:
+            self.x = self.screen_width
+            self.vx *= -self.rebound_factor
 
     def draw(self, screen):
         """
@@ -248,7 +243,7 @@ class Body:
         pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
 
 
-def calculate_gravitational_force(p1: Body, p2: Body) -> tuple:
+def calculate_gravitational_force(p1: Body, p2: Body, g: float) -> tuple:
     """
     Calculate the gravitational force between two objects in a 2D space.
 
@@ -258,6 +253,8 @@ def calculate_gravitational_force(p1: Body, p2: Body) -> tuple:
         An object representing the first body with attributes 'x', 'y', and 'mass' for position and mass.
     p2 : Body
         An object representing the second body with attributes 'x', 'y', and 'mass' for position and mass.
+    g : float
+        The gravitational constant.
 
     Returns
     -------
@@ -285,7 +282,7 @@ def calculate_gravitational_force(p1: Body, p2: Body) -> tuple:
     distance = max(1, math.sqrt(dx**2 + dy**2))
     if distance < 40:
         return (0, 0)
-    force = (G * p1.mass * p2.mass) / (distance**2)
+    force = (g * p1.mass * p2.mass) / (distance**2)
     angle = math.atan2(dy, dx)
     force_x = force * math.cos(angle)
     force_y = force * math.sin(angle)
@@ -320,30 +317,68 @@ def add_tuples(tuple: tuple) -> tuple:
     return (even, odd)
 
 
-def main():
+def main(
+    width: int = typer.Option(800, help="Width of the screen"),
+    height: int = typer.Option(600, help="Height of the screen"),
+    max_bodies: int = typer.Option(
+        10, help="Maximum number of bodies to had to the simulation."
+    ),
+    rebound_factor: float = typer.Option(
+        0.5,
+        help="Factor strength to apply when bodies when bodies bounce off the limits of the screen.",
+    ),
+    mass: int = typer.Option(10, help="Default mass of the bodies."),
+    g: int = typer.Option(9.8, help="The gravitational constant."),
+    clock: int = typer.Option(
+        60, help="Framerate to delay the game to the given ticks."
+    ),
+):
+    """
+    Welcome to the n-body simulation, press
+
+    """
+
+    # SETUP
+    pygame.init()
+    screen = pygame.display.set_mode((width, height))
+    clock = pygame.time.Clock()
+
     # CALCULATE NECESSARY TRIGONOMETRY
     side = 200
     x = np.sqrt(side**2 - (side / 2) ** 2)
-    initial_x = 300
+    initial_x = width / 2 - side / 2
     initial_y = 400
 
     # INITIAL BODIES
     body1 = Body(
-        initial_x, initial_y, mass=MASS, velocity=(0.1, 0.1), color=(116, 148, 196)
+        initial_x,
+        initial_y,
+        mass=mass,
+        velocity=(0.1, 0.1),
+        color=(116, 148, 196),
+        rebound_factor=rebound_factor,
+        screen_height=height,
+        screen_width=width,
     )
     body2 = Body(
         (initial_x + (initial_x + side)) / 2,
         initial_y - x,
-        mass=MASS,
+        mass=mass,
         velocity=(-0.1, 0.1),
         color=(106, 77, 97),
+        rebound_factor=rebound_factor,
+        screen_height=height,
+        screen_width=width,
     )
     body3 = Body(
         initial_x + side,
         initial_y,
-        mass=MASS,
+        mass=mass,
         velocity=(0.1, -0.1),
         color=(195, 212, 7),
+        rebound_factor=rebound_factor,
+        screen_height=height,
+        screen_width=width,
     )
     bodies = [body1, body2, body3]
 
@@ -354,15 +389,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if len(bodies) < 10:
+                if len(bodies) < max_bodies:
                     mouse = pygame.mouse.get_pos()
                     bodies.append(
                         Body(
                             mouse[0],
                             mouse[1],
-                            mass=MASS,
+                            mass=mass,
                             velocity=(0.1, 0.1),
                             color=COLORS[len(bodies) - 3],
+                            rebound_factor=rebound_factor,
+                            screen_height=height,
+                            screen_width=width,
                         )
                     )
                 else:
@@ -371,14 +409,14 @@ def main():
         screen.fill((0, 0, 0))
 
         for body in bodies:
-            body.calculate_grav_force(bodies)
+            body.calculate_grav_force(bodies, g=g)
             body.draw(screen)
 
         pygame.display.update()
         clock.tick(60)
 
     pygame.quit()
-    sys.exit()
+    print("Thank you for playing the simulator,we look forward to your return! ")
 
 
 if __name__ == "__main__":
